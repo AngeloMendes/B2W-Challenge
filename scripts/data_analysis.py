@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 from sklearn import preprocessing
 
-import matplotlib
-from matplotlib import pyplot as plt
 
 df_sales = pd.read_csv('../datasets/sales.csv', delimiter=',')
 df_comp_prices = pd.read_csv('../datasets/comp_prices.csv', delimiter=',')
