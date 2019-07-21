@@ -1,6 +1,5 @@
 from matplotlib import pyplot as plt
 import pandas as pd
-import numpy as np
 
 df_sales = pd.read_csv('../datasets/sales.csv', delimiter=',')
 df_comp_prices = pd.read_csv('../datasets/comp_prices.csv', delimiter=',')
@@ -10,7 +9,7 @@ def chart_sales_prod(prod_id):
     total_sales = df_sales.PROD_ID.value_counts()[prod_id]
     df = df_sales.groupby(['PROD_ID', 'DATE_ORDER'])['PROD_ID'].count()
     df[prod_id].plot(title='Sales ' + str(prod_id) +
-                     ' \n  Total sales = '+str(total_sales))
+                           ' \n  Total sales = ' + str(total_sales))
 
     plt.ylabel('num sales')
     plt.xlabel('date')
@@ -21,7 +20,8 @@ def chart_sales_prod(prod_id):
 #    chart_sales_prod(prod_id)
 
 
-def find_competitor_prices(competitor, pay_type, prod_id, date_min='2015-01-31 20:10:14', date_max='2015-10-14 20:11:30'):
+def find_competitor_prices(competitor, pay_type, prod_id, date_min='2015-01-31 20:10:14',
+                           date_max='2015-10-14 20:11:30'):
     """
     Plot a figure with all prices in a date interval, group by prod_id and competitor
 
@@ -35,7 +35,7 @@ def find_competitor_prices(competitor, pay_type, prod_id, date_min='2015-01-31 2
 
     df = df_comp_prices.groupby(['DATE_EXTRACTION', 'PROD_ID', 'COMPETITOR', 'COMPETITOR_PRICE', 'PAY_TYPE']).filter(
         lambda x: (x['COMPETITOR'] == competitor).any())
-    
+
     df = df[df.PROD_ID == prod_id]
     df = df[df.PAY_TYPE == pay_type]
     df = df[(df['DATE_EXTRACTION'] > date_min) &
@@ -47,12 +47,13 @@ def find_competitor_prices(competitor, pay_type, prod_id, date_min='2015-01-31 2
         return None
 
     df.plot(x='DATE_EXTRACTION', y='COMPETITOR_PRICE',
-            title='PRICE VARIATION \n PROD_ID: '+str(prod_id)+' COMPETITOR: '+str(competitor))
+            title='PRICE VARIATION \n PROD_ID: ' + str(prod_id) + ' COMPETITOR: ' + str(competitor))
     plt.ylabel('competitor price')
     plt.xlabel('date')
     plt.show()
 
-# find_competitor_prices(competitor='C4',pay_type=1,prod_id='P4')
+
+# find_competitor_prices(competitor='C3',pay_type=1,prod_id='P6', date_max='2015-03-14%')
 
 
 def find_outliers(competitor, prod_id):
@@ -70,7 +71,6 @@ def find_outliers(competitor, prod_id):
     min = min.sort_values('COMPETITOR_PRICE', ascending=True)
     print(min.COMPETITOR_PRICE.head(5))
     print('------------------------------------------------------\n\n')
-
 
 # for prod_id in df_sales.PROD_ID.unique():
 #    find_outliers('C6',prod_id)
